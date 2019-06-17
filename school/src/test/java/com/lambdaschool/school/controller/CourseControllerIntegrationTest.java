@@ -32,12 +32,12 @@ public class CourseControllerIntegrationTest {
 
     @Test
     public void listAllCoursesResponseTime() {
-        given().when().get("courses/courses").then().time(lessThan(5000L));
+        given().when().get("/courses/courses").then().time(lessThan(5000L));
     }
 
     @Test
     public void addNewCourse() {
-        given().when().post("courses/courses/course/add").then().time(lessThan(5000L));
+        given().when().post("/courses/courses/course/add").then().time(lessThan(5000L));
     }
 
 
