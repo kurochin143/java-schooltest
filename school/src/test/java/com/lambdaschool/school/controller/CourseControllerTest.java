@@ -57,11 +57,13 @@ public class CourseControllerTest {
 
     @Test
     public void listAllCourses() throws Exception {
-        String url = "/courses";
+        String url = "/courses/courses";
 
         Mockito.when(courseService.findAll()).thenReturn(courseList);
 
-        RequestBuilder rb = MockMvcRequestBuilders.get(url).accept(MediaType.APPLICATION_JSON);
+        RequestBuilder rb = MockMvcRequestBuilders
+                .get(url)
+                .accept(MediaType.APPLICATION_JSON);
         MvcResult result = mockMvc.perform(rb).andReturn();
         String responseStr = result.getResponse().getContentAsString();
 
@@ -70,6 +72,29 @@ public class CourseControllerTest {
         String expectedResult = mapper.writeValueAsString(courseList);
 
         assertEquals(expectedResult, responseStr);
+    }
+
+    @Test
+    public void addNewCourse() throws Exception {
+        String url = "/courses/courses/course/add";
+
+        Course returnCourse = new Course("added_course");
+        Mockito.when(courseService.save(Mockito.any(Course.class))).thenReturn(returnCourse);
+
+        RequestBuilder rb = MockMvcRequestBuilders
+                .post(url)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"coursename\":\"added_course\"}");
+
+        MvcResult result = mockMvc.perform(rb).andReturn();
+        String responseStr = result.getResponse().getContentAsString();
+
+        ObjectMapper mapper = new ObjectMapper();
+        Course responseCourse = mapper.readValue(responseStr, Course.class);
+
+        assertEquals("added_course", responseCourse.getCoursename());
+
     }
 
 

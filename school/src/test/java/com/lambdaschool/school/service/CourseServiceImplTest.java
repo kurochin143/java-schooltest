@@ -51,7 +51,7 @@ public class CourseServiceImplTest {
     }
 
     @Test
-    public void save() {
+    public void saveWithInstructor() {
         Instructor instructor = new Instructor("TestInstructor");
 
         Course course = new Course("TestCourse", instructor);
@@ -61,5 +61,13 @@ public class CourseServiceImplTest {
 
         assertEquals(course.getCoursename(), savedCourse.getCoursename());
         assertEquals(course.getInstructor().getInstructname(), savedCourse.getInstructor().getInstructname());
+    }
+
+    @Test
+    public void saveWithoutInstructor() {
+        Course course = new Course("TestCourse", null);
+        Course savedCourse = courseService.save(course);
+
+        assertEquals(course.getCoursename(), savedCourse.getCoursename());
     }
 }
