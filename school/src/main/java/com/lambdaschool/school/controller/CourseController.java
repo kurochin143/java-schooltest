@@ -36,4 +36,12 @@ public class CourseController
         courseService.delete(courseid);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @PostMapping("/courses/course/add")
+    public ResponseEntity<?> addNewCourse(@RequestBody Course course) {
+
+        Course newCourse = courseService.save(course);
+
+        return new ResponseEntity<>(newCourse, HttpStatus.OK);
+    }
 }
